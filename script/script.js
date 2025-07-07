@@ -83,3 +83,29 @@ function addTodo() {
       document.querySelector(`#todo-${index}`).classList.toggle("complete");
   }
 });
+
+function clicked(id){
+}
+
+const containe = document.querySelector(".todos");
+containe.addEventListener("change", function (e) {
+  if (e.target && e.target.type === "checkbox") {
+    console.log(e.target.id)
+    var index = e.target.id.split("-").pop();
+    document.querySelector(`#todo-${index}`).classList.toggle("complete");
+  }
+});
+
+function completeTodo(id, isCompleted = true) {
+  fetch(`${baseUr1}/Todo/${id}/status`, {
+    method:"PUT",
+    headers: {
+      "x-api-key":"V4PaperYx4Ycc6zucdO6",
+      "Content-Type": "Application/JSon"
+    },
+    body: JSON.stringify({
+      description: description,
+      isCompleted: isCompleted,
+    }),
+  })
+}
