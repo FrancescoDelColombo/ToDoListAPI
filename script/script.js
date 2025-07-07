@@ -5,22 +5,13 @@ document.addEventListener("click", function () {
 
 const baseUr1 = "https://its-todo-api.azurewebsites.net/api";
 
-/*document.addEventListener("DOMContentLoaded", function () {
-  fetchData().then((todos) => {
-    if (todos) {
-      console.log("Dati Ricevuti: ",todos);
-      renderTodos
-    }
-  })
-})*/
-
 document.addEventListener("DOMContentLoaded", function () {
   fetchData().then((todos) => {
     if (todos) {
       console.log("Dati ricevuti:", todos);
       renderTodos(todos)
     }
-  }).error((error) => {
+  }).catch((error) => {
     console.error("Errore durante il fetch dei dati:", error);
   });
 });
@@ -38,7 +29,7 @@ async function fetchData() {
     if (!response.ok) throw new Error("Errore nella risposta");
 
     const todos = await response.json();
-    return todos; // Questo ritorna i dati all'interno della funzione async
+    return todos;
   } catch (error) {
     console.error("Errore API:", error);
     return null;
