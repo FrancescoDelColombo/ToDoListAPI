@@ -3,7 +3,7 @@ document.addEventListener("click", function () {
   document.querySelector("#new-todo").classList.remove("error-input");
 });
 
-const baseUr1 = "https://its-todo-api.azurewebsites.net/api";
+const baseUrl = "https://its-todo-api.azurewebsites.net/api";
 
 document.addEventListener("DOMContentLoaded", function () {
   fetchData().then((todos) => {
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function fetchData() {
   
   try{
-    const response = await fetch(`${baseUr1}/ToDo`, {
+    const response = await fetch(`${baseUrl}/ToDo`, {
       method: "GET",
       headers:{
         "x-api-key":"V4PaperYx4Ycc6zucdO6",
@@ -52,8 +52,8 @@ function renderTodos(todos) {
 }
 
 function addTodo() {
-  var todoText = document.querySelector("#new-todo").value;
   const input = document.querySelector("#new-todo");
+  var todoText = input.value;
 
   if (todoText === "") {
     input.classList.remove("error-input");
@@ -64,6 +64,8 @@ function addTodo() {
 
   let count = document.querySelectorAll(".todo").length;
   let i = ++count;
+
+  createTodo(todoText);
 
   document.querySelector(".todos").insertAdjacentHTML("beforeend", `
     <div class="todo-container">
@@ -97,7 +99,7 @@ containe.addEventListener("change", function (e) {
 });
 
 function completeTodo(id, isCompleted = true) {
-  fetch(`${baseUr1}/Todo/${id}/status`, {
+  fetch(`${baseUrl}/Todo/${id}/status`, {
     method:"PUT",
     headers: {
       "x-api-key":"V4PaperYx4Ycc6zucdO6",
@@ -108,4 +110,19 @@ function completeTodo(id, isCompleted = true) {
       isCompleted: isCompleted,
     }),
   })
+}
+
+function createTodo(description, isCompleted = false) {
+  fetch(`${baseUrl}/Todo`, {
+    method: "POST",
+    headers: {
+      "x-api-key": "V4PaperYx4Ycc6zucdO6",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      description: description,
+      isCompleted: isCompleted,
+    }),
+  })
+    .catch((error) => console.error("Errore API:", error));
 }
